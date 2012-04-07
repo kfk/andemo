@@ -64,7 +64,7 @@
 				<div class="centered">
 					<hr>
 					<form method="POST">
-					Please, insert a stock id: {{ form.stockId }}
+					Please, insert a stock id: {{ form.stock_id }}
 					<input type="submit"/>
 					</form>
 					<h3>Single Stock Company Overview</h3>
@@ -84,7 +84,7 @@
 						</div>
 						<div class="tab-pane" id="2">
 							<h3>Historical data (from 2007)</h3>
-							 {{d_last_hist|safe}}
+							 {{table_hist|safe}}
 						</div>
 					</div>
 				      </div> <!-- /tabbable -->
@@ -112,18 +112,25 @@
 	 <script src="/static/jquery.flot.js"></script>
 	 <script type="text/javascript">
 	$(function () {
-	
-		 var d1 = {{l_hist}};
-
-		 $.plot($("#placeholder"), [ d1],
-			{
-			xaxis: {
-                mode: "time",
-                minTickSize: [1, "month"],
-                min: (new Date(2007, 1, 1)).getTime(),
-                max: (new Date(2012, 3, 28)).getTime()
-            }
-			});
+		 function plotJson(series){
+			console.log(series["stock"]);
+			var data = []
+			for (k in series){
+				data.push(series[k])};
+				$.plot($("#placeholder"), data,
+					{
+					xaxis: {
+						mode: "time",
+						minTickSize: [1, "month"],
+						min: (new Date(2007, 1, 1)).getTime(),
+						max: (new Date(2012, 3, 28)).getTime()
+						}
+				})};
+	    $.ajax({
+			url:"/js_plot_t",
+			method: "GET",
+			datatype: "json",
+			success: plotJson});
 	});
 	</script>
 	
