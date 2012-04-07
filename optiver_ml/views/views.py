@@ -22,18 +22,20 @@ def index():
 		dc['url_params']['stock_id'] = form.stock_id.data
 	names['stock_id'] = '"'+dc['url_params']['stock_id']+'"'
 	rd = ysk.yh_stock_api_get(dh)
-	l_hist['data'], l_mva = js_plot(rd)
-	l_hist['label'] = names['stock_id']
-	print json.dumps(l_hist)
 	curr_quote = ysk.d_to_html_table(ysk.yh_stock_api_get(dc))
 	table_hist = ysk.d_to_html_table(rd, table_id='dynamic_table')
-	return render_template('index.html',curr_quote=curr_quote,form=form, l_hist=json.dumps(l_hist),table_hist=table_hist,names=names, l_mva=l_mva)
+	return render_template('index.html',curr_quote=curr_quote,form=form,table_hist=table_hist,names=names)
 
+@app.route('/stock')
+def stock():
+	return render_template('stock.html')
 
-
+#From here Json Api
 import calendar
-@app.route('/js_plot_t')
-def js_plot_t():	
+@app.route('/js_plot/<stock_id>')
+def js_plot_t(stock_id):	
+	print stock_id
+	dh['url_params']['stock_id']=stock_id
 	rd = ysk.yh_stock_api_get(dh)
 	l = []
 	lm1 = []
@@ -60,5 +62,14 @@ def js_plot_t():
 			acc1=0
 	j = {}
 	j['lm1']={'label':'mav_test', 'data':lm1}
-	j['stock']={'label':'test','data':l}
+	j['aa_stock']={'label':stock_id,'data':l}
 	return jsonify(j)
+
+@app.route('/get_last_quote')
+def get_last_quote():
+	last_quote = ysk.yh_stock_api_get(dc)
+	t = {}
+	t['aaData'] = last_quote['values']
+	#t['aaData'] = [["q","b","c"]]
+	return jsonify(t)
+
