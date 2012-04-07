@@ -70,6 +70,7 @@ def get_last_quote():
 	last_quote = ysk.yh_stock_api_get(dc)
 	t = {}
 	t['aaData'] = last_quote['values']
+	t['aoColumns'] = last_quote['header']
 	#t['aaData'] = [["q","b","c"]]
 	return jsonify(t)
 
