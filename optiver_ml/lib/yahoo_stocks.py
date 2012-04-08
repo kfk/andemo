@@ -26,17 +26,3 @@ def yh_stock_api_get(d):
 	rd['values'] = l
 	return rd
 
-def d_to_html_table(d, table_id=''):
-	out_h = ''
-	for item in d['header']:
-		out_h += '''<th>{}</th>\n'''.format(item)
-
-	out_b = ''	
-	for row in d['values']:
-		out_b+='<tr>\n'
-		for item in row:	
-			out_b+='<td>{}</td>\n'.format(item)
-		out_b+='</tr>\n'
-	html_table = '''<table class='table table-bordered table-striped' id='''+table_id+'''>''' + '<thead>' + out_h +'</thead>' + '<tbody>' + out_b + '</tbody>' + '</table>\n'
-	return html_table
-
