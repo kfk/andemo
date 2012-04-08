@@ -65,12 +65,25 @@ def js_plot_t(stock_id):
 	j['aa_stock']={'label':stock_id,'data':l}
 	return jsonify(j)
 
-@app.route('/get_last_quote')
-def get_last_quote():
+@app.route('/get_last_quote/<stock_id>')
+def get_last_quote(stock_id):
+	dc['url_params']['stock_id'] = stock_id
 	last_quote = ysk.yh_stock_api_get(dc)
 	t = {}
 	t['aaData'] = last_quote['values']
 	t['aoColumns'] = last_quote['header']
 	#t['aaData'] = [["q","b","c"]]
 	return jsonify(t)
+
+@app.route('/get_hist_quotes/<stock_id>')
+def get_hist_quotes(stock_id):
+	dc['url_params']['stock_id'] = stock_id
+	last_quote = ysk.yh_stock_api_get(dh)
+	t = {}
+	t['aaData'] = last_quote['values']
+	t['aoColumns'] = last_quote['header']
+	#t['aaData'] = [["q","b","c"]]
+	return jsonify(t)
+
+
 

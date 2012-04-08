@@ -1,105 +1,94 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)http://twitter.github.com/bootstrap/examples/hero.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<!--TITLE--><title>Demo Data Analytics</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/static/style.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
+	<!-- CSS -->
+	<link href="/static/style.css" rel="stylesheet">
+	<style type="text/css">
+		body {
+			padding-top: 60px;
+			padding-bottom: 40px;
+		}
 		.centered{
 			text-align:center;
 			margin-left: auto;
 			margin-right: auto;"}
-    </style>
+	</style><!--CSS-->
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+	<!-- IE6-8 support-->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
 
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="http://twitter.github.com/bootstrap/assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://twitter.github.com/bootstrap/assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://twitter.github.com/bootstrap/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://twitter.github.com/bootstrap/assets/ico/apple-touch-icon-57-precomposed.png">
-  </head>
-
-  <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="http://twitter.github.com/bootstrap/examples/hero.html#">Demo Data Analytics</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-				  <li class="active"><a>Alessio Civitillo</a></li>
-              <li><a href="http://twitter.github.com/bootstrap/examples/hero.html#">Source Code</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+<body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="http://twitter.github.com/bootstrap/examples/hero.html#">Demo Data Analytics</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active"><a>Alessio Civitillo</a></li>
+						<li><a href="http://twitter.github.com/bootstrap/examples/hero.html#">Source Code</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
 
     <div class="container">
-
-      <!-- Main hero unit for a primary marketing message or call to action -->
-
-
-      <!-- Example row of columns -->
       <div class="row">
 			<div class="span12">
 				<div class="centered">
+
 					<hr>
+					<p>Please, insert a stock id (i.e.: GE, TE, GOOG, etc.)</p></br>
 					<form id="form_stock_id"> 
 					<input type="text" id="inp_stock_id"/>
 					<input type="submit"/>
 					</form>
-					<h3>Single Stock Company Overview</h3>
 					<hr>
-					<div class="tabbable" style="margin-bottom: 9px;">
-					<ul class="nav nav-tabs">
-						<li class="active"><a href="#1" data-toggle="tab">Overview</a></li>
-						<li><a href="#2" data-toggle="tab">Chart Data</a></li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane active" id="1">
-							<p><b>Last Week overview</b></p>
+
+					<div id="hideble">
+						<h3>Single Stock Company Overview</h3>
+						<hr>
+						<div class="tabbable" style="margin-bottom: 9px;">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#1" data-toggle="tab">Overview</a></li>
+								<li><a href="#2" data-toggle="tab">Chart Data</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="1">
+									<p><b>Last Week overview</b></p>
 							
-							<div id="demo"></div>
+									<div id="dynamic_table_plc_00"></div>
 							
-							<p><b>Historical (from 2007) trend</b></p>
-							<div id="placeholder" style="width:600px;height:300px;margin-left: auto;margin-right: auto;"></div>
-						</div>
-						<div class="tab-pane" id="2">
-							<h3>Historical data (from 2007)</h3>
-							 
-						</div>
-					</div>
-				      </div> <!-- /tabbable -->
+									<p><b>Historical (from 2007) trend</b></p>
+									<div id="placeholder" style="width:600px;height:300px;margin-left: auto;margin-right: auto;"></div>
+								</div>
+								<div class="tab-pane" id="2">
+									<h3>Historical data (from 2007)</h3>
+									
+									<div id="dynamic_table_plc_01"></div>
+								</div>
+							</div>
+						</div> <!-- /tabbable -->
+					</div> <!-- /Hideble -->
 				<div>				
 			</div>
       </div>
     </div>
-
-      <hr>
-
-      <footer>
-        <p>© Company 2012</p>
-      </footer>
-
     </div> <!-- /container -->
 
     <!-- Le javascript
@@ -110,9 +99,12 @@
     <script src="/static/bootstrap-tab.js"></script>
     <script type="text/javascript" charset="utf-8" language="javascript" src="/static/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf-8" language="javascript" src="/static/DT_bootstrap.js"></script>
-	 <script src="/static/jquery.flot.js"></script>
-	 <script type="text/javascript">
+    <script src="/static/jquery.flot.js"></script>
+    <script type="text/javascript">
 	$(function () {
+		
+		$('#hideble').hide(); 
+		
 		function plotJson(series){
 			console.log(series["stock"]);
 			var data = []
@@ -127,6 +119,7 @@
 						}
 				})
 		};
+		
 		function getStockJson (stock_id) {
 		$.ajax({
 			url:"/js_plot/"+stock_id,
@@ -134,25 +127,40 @@
 			datatype: "json",
 			success: plotJson
 			});}
-		
 				
 		$('#form_stock_id').submit(function(t) {
+			$('#hideble').show()
 			var stock_id = $('#inp_stock_id').val()
 			getStockJson(stock_id);
+			getLastQuote(stock_id, url='/get_last_quote/', table_plc='dynamic_table_plc_00', table_id='dynamic_table_00');
+			getLastQuote(stock_id, url='/get_hist_quotes/', table_plc='dynamic_table_plc_01', table_id='dynamic_table_01');
 			return false;
 		});
-		
 
-    $('#demo').html( '<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="dynamic_table"></table>' );
-
-$.ajax( {
-    "url": 'whatever.php',
-    "success": function ( json ) {
-        json.bDestroy = true;
-        $('#dynamic_table').dataTable( json );
-    },
-    "dataType": "json"
-} );
+		function getLastQuote (stock_id,url,table_plc,table_id) {
+			$('#'+table_plc).html('<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="'+table_id+'"></table>');
+			$.ajax({
+			    "url": url+stock_id,
+			    "success": function ( json ) {
+				aoColumns = []
+				for (col in json["aoColumns"]){ 
+					var td = {};
+					td["sTitle"] = json["aoColumns"][col];
+					aoColumns.push(td);
+					};
+        
+				json.bDestroy = true;
+				$('#'+table_id).dataTable({
+					"bDestroy":true,
+					"sDom":'<"clear">',
+					"aaSorting":[[0,"desc"]],
+					"aaData":json["aaData"],
+					"aoColumns": aoColumns
+				});
+			    },
+			    "dataType": "json"
+			});
+		};
 		
 	});
 	</script>
