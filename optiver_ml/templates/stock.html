@@ -20,6 +20,8 @@
 			margin-left: auto;
 			margin-right: auto;"}
 	</style><!--CSS-->
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="/static/icons/favicon.png">  
 
 	<!-- IE6-8 support-->
 		<!--[if lt IE 9]>
@@ -75,7 +77,20 @@
 									<div id="dynamic_table_plc_00"></div>
 							
 									<p><b>Historical (from 2007) trend</b></p>
-									<div id="placeholder" style="width:600px;height:300px;margin-left: auto;margin-right: auto;"></div>
+									
+									
+									<form id="form_forplot"> 
+										Rolling average input(insert rolling choise saparated by "-", i.e.: 3-6: <input type="text" class="span1" id="forplot_mva_inp"/>
+										From Year:  <input type="text" class="span1" id="forplot_from_y_inp"/></br>
+										Interval: <select id="forplot_interval_inp">
+											<option value="m">Monthly</option>
+											<option value="w">Weekly</option>
+											<option value="d">Daily</option>
+										</select>
+										<input type="submit"/>
+									</form>
+									
+									<div id="flot_plot_plc" style="width:700px;height:400px;margin-left: auto;margin-right: auto;"></div>
 								</div>
 								<div class="tab-pane" id="2">
 									<h3>Historical data (from 2007)</h3>
@@ -105,38 +120,53 @@
 		
 		$('#hideble').hide(); 
 		
-		function plotJson(series){
-			console.log(series["stock"]);
+		//Plotting
+		function plotJson(series, from_y){
 			var data = []
-			for (k in series){
-				data.push(series[k])};
-				$.plot($("#placeholder"), data,{
+			for (k in series['sort_order']){
+				data.push(series[series['sort_order'][k]])};
+				$.plot($("#flot_plot_plc"), data,{
 					xaxis: {
 						mode: "time",
-						minTickSize: [1, "month"],
-						min: (new Date(2007, 1, 1)).getTime(),
+						timeformat: "%y/%m/%d",
+						minTickSize: [1, "day"],
+						min: (new Date(from_y, 1, 1)).getTime(),
 						max: (new Date(2012, 3, 28)).getTime()
 						}
 				})
 		};
 		
-		function getStockJson (stock_id) {
-		$.ajax({
-			url:"/js_plot/"+stock_id,
-			method: "GET",
-			datatype: "json",
-			success: plotJson
-			});}
-				
-		$('#form_stock_id').submit(function(t) {
+		function getStockJson (stock_id,interval,from_y,mvs) {
+			$.ajax({
+				url:"/js_plot/"+stock_id+"?interval="+interval+"&from_y="+from_y+"&mvs="+mvs,
+				method: "GET",
+				datatype: "json",
+				success: function (series){plotJson(series,from_y)}
+				});
+		};
+		//.Plotting
+		
+		//Forms	
+		$('#form_stock_id').submit(function(inp) {
 			$('#hideble').show()
 			var stock_id = $('#inp_stock_id').val()
-			getStockJson(stock_id);
+			getStockJson(stock_id,interval="w",from_y="2007",mvs="3-6");
 			getLastQuote(stock_id, url='/get_last_quote/', table_plc='dynamic_table_plc_00', table_id='dynamic_table_00');
 			getLastQuote(stock_id, url='/get_hist_quotes/', table_plc='dynamic_table_plc_01', table_id='dynamic_table_01');
 			return false;
 		});
 
+		$('#form_forplot').submit(function() {
+			var mvs = $('#forplot_mva_inp').val();
+			var interval = $('#forplot_interval_inp').val();
+			var stock_id = $('#inp_stock_id').val()
+			var from_year = $('#forplot_from_y_inp').val()
+			getStockJson(stock_id,interval,from_year,mvs)
+			return false;
+		});
+		//.Forms
+
+		//Tables
 		function getLastQuote (stock_id,url,table_plc,table_id) {
 			$('#'+table_plc).html('<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered table-condensed" id="'+table_id+'"></table>');
 			$.ajax({

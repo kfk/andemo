@@ -12,6 +12,11 @@ dh = {'url':'http://ichart.yahoo.com/table.csv?s={stock_id}&a={from_m}&b={from_d
 
 dc = {'name':'values','url':'http://download.finance.yahoo.com/d/quotes.csv?s={stock_id}&f=nsop&e=.csv','url_params':{'stock_id':'GOOG'},'header':['name','id','open','close']}
 
+@app.route('/tests')
+def tests():
+	print request.args['test']
+	return "hello"
+
 @app.route('/', methods=['GET','POST'])
 def index():
 	form = Stock_id(request.form)
@@ -30,21 +35,21 @@ def index():
 def stock():
 	return render_template('stock.html')
 
-#From here Json Api
+#From here Apis
 import calendar
 @app.route('/js_plot/<stock_id>')
-def js_plot_t(stock_id):	
-	print stock_id
+def js_plot_t(stock_id):
+	interval = request.args['interval']
+	mvs = request.args['mvs']
+	from_y = request.args['from_y']
+	mvs = mvs.split('-')
 	dh['url_params']['stock_id']=stock_id
+	dh['url_params']['interval']=interval
+	dh['url_params']['from_y']=from_y
 	rd = ysk.yh_stock_api_get(dh)
 	l = []
-	lm1 = []
-	n = -1
-	m1 = 10
-	m  = [2,3,4]
-	acc1 = 0
+	j = {}
 	for item in rd['values']:
-		n+=1
 		tl = []
 		item_s = item[0].split('-')
 		tm = calendar.timegm((int(item_s[0]),int(item_s[1]),int(item_s[2]),0,0,0,0,0))*1000
@@ -52,17 +57,32 @@ def js_plot_t(stock_id):
 		tl.append(float(item[4]))
 		l.append(tl)
 		tl = []
-		if n<m1:
-			acc1+=float(item[4])
-		if n == m1:
-			tl.append(tm)
-			tl.append(acc1/m1)
-			lm1.append(tl)
-			n=-1
-			acc1=0
-	j = {}
-	j['lm1']={'label':'mav_test', 'data':lm1}
-	j['aa_stock']={'label':stock_id,'data':l}
+	j['stock'] = {'label':stock_id,'data':l}
+	del l
+	n = 0
+	acc = 0
+	sort_order = ['stock']
+	if int(mvs[0]) != 0:
+		for m in mvs:
+			m = int(m)
+			l = []
+			for item in rd['values']:
+				tl = []
+				n+=1
+				if n<=m:
+					acc+=float(item[4])
+				if n == m:
+					item_s = item[0].split('-')
+					tm = calendar.timegm((int(item_s[0]),int(item_s[1]),int(item_s[2]),0,0,0,0,0))*1000
+					tl.append(tm)
+					tl.append(acc/m)
+					l.append(tl)
+					n=0
+					acc=0
+			m_nm = 'lm'+str(m)
+			sort_order.append(m_nm)
+			j['lm'+str(m)] = {'label':m_nm, 'data':l}
+	j['sort_order'] = sort_order
 	return jsonify(j)
 
 @app.route('/get_last_quote/<stock_id>')
