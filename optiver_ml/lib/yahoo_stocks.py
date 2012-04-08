@@ -1,4 +1,4 @@
-import urllib2 
+import urllib2, csv 
 import calendar, time
 
 def yh_stock_api_get(d):
@@ -13,9 +13,9 @@ def yh_stock_api_get(d):
 	data = urllib2.urlopen(url)
 	l = []
 	n = -1
-	for row in data:
-		n+=1
-		row = row.split(',')
+
+	for row in csv.reader(data, delimiter=',', quotechar='"'):
+		n+=1	
 		if rd['header'] != False:
 			l.append(row)
 		else:
@@ -25,18 +25,4 @@ def yh_stock_api_get(d):
 				rd['header'] = row
 	rd['values'] = l
 	return rd
-
-def d_to_html_table(d, table_id=''):
-	out_h = ''
-	for item in d['header']:
-		out_h += '''<th>{}</th>\n'''.format(item)
-
-	out_b = ''	
-	for row in d['values']:
-		out_b+='<tr>\n'
-		for item in row:	
-			out_b+='<td>{}</td>\n'.format(item)
-		out_b+='</tr>\n'
-	html_table = '''<table class='table table-bordered table-striped' id='''+table_id+'''>''' + '<thead>' + out_h +'</thead>' + '<tbody>' + out_b + '</tbody>' + '</table>\n'
-	return html_table
 
