@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,9 +25,18 @@
 	<link rel="shortcut icon" href="/static/icons/favicon.png">  
 
 	<!-- IE6-8 support-->
+		
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+	
+	<!-- Javascript
+	================================================== -->
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/static/excanvas.min.js"></script><![endif]-->
+	<script type="text/javascript" charset="utf-8" language="javascript" src="/static/jquery.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/static/jquery.flot.js" language="javascript"></script>
+	<script type="text/javascript" charset="utf-8" src="/static/bootstrap-tab.js" language="javascript"></script>
+	<script type="text/javascript" charset="utf-8" language="javascript" src="/static/jquery.dataTables.js"></script>
 </head>
 
 <body>
@@ -108,13 +118,7 @@
 		</div>
 	</div> <!-- /container -->
 
-    <!-- Javascript
-    ================================================== -->
-    <!--[if IE]><script language="javascript" type="text/javascript" src="/static/excanvas.min.js"></script><![endif]-->
-	<script type="text/javascript" charset="utf-8" language="javascript" src="/static/jquery.js"></script>
-	<script src="/static/bootstrap-tab.js"></script>
-	<script type="text/javascript" charset="utf-8" language="javascript" src="/static/jquery.dataTables.js"></script>
-	<script src="/static/jquery.flot.js"></script>
+    
 	<script type="text/javascript">
 		$(function () {
 		
@@ -146,7 +150,7 @@
 			};
 			//.Plotting
 		
-			//Forms	
+			//Forms
 			$('#form_stock_id').submit(function(inp) {
 				$('#hideble').show()
 				var stock_id = $('#inp_stock_id').val()
