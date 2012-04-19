@@ -1,0 +1,6 @@
+#Static
+:e optiver_ml/static/style.css
+#Templates
+:e optiver_ml/templates/tfinancials.html
+:e optiver_ml/templates/stock.html
+:e optiver_ml/templates/tcsvLoad.html

@@ -1,7 +1,15 @@
-
+o
 :e app.py
 :e optiver_ml/views/views.py
 :e optiver_ml/views/stock.py
 :e optiver_ml/views/financials.py
 :e optiver_ml/lib/yahoo_stocks.py
+:e optiver_ml/lib/lfinancials.py
 
+#Generic stuff
+
+:e sample_data/hyp.dat
+:e sample_data/hyp_constuff
+
+:e sample_data/hyp.dat
+:e sample_data/hyp_conf.txt
