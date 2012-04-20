@@ -1,10 +1,9 @@
-#from andemo import app
 import re
 
-regexp = r'[A-Z0-9]+\.[A-Z0-9]+'
+regexp = r'[A-Z0-9]+\.[A-Z0-9]+\.[A-Z0-9]+|[A-Z0-9]+\.[A-Z0-9]+|[A-Z0-9]+'
 
 def clean_string(string):
-	for item in ['-','\n']:
+	for item in ['-','@s','@p','\n']:
 		string = string.replace(item,'')
 	return string
 
@@ -24,6 +23,7 @@ def import_financials(f):
 	for row in f:
 		row = row.split(',')
 		n = len(row)
+		print row
 		d['data'][(row[0],row[1])]=row[2:n]
 	d['row_len'] = int(n)
 	entities = set()
@@ -34,12 +34,9 @@ def import_financials(f):
 
 def mk_financials_grid(d,d_formulas):
 	for entity in d['entities']:
-		for k in d_formulas.keys():
+		for k in d_formulas['ORDER']:
 			formula = re.sub(regexp, reg_repl(entity),d_formulas[k]) 
-			try:
-				d['data'][(entity,k)] = [eval(formula) for i in range(d['row_len']-2)]
-			except IndexError:
-				pass
+			d['data'][(entity,k)] = [eval(formula) for i in range(d['row_len']-2)]	
 	return d
 
 #TODO: check for accounts with same name
@@ -47,7 +44,9 @@ def formulas_to_d(f):
 	'arg: file object'
 	d = {}
 	d['FORMULAS']={}
+	d['FORMULAS']['ORDER'] = []
 	d['ACCOUNTS'] = {}
+	d['ACCOUNTS']['ORDER'] = []
 	start = False
 	start_sl = ['>FORMULAS','>ACCOUNTS_ORD']
 	for row in f:
@@ -61,19 +60,23 @@ def formulas_to_d(f):
 			try:
 				rs = row.split('=')
 				d['FORMULAS'][rs[0]]=rs[1]
+				d['FORMULAS']['ORDER'].append(rs[0])
 			except IndexError:
 				pass
-		if start and conf_group==start_sl[1]:
-			if row[0]=='-':
-				row = clean_string(row)
-				tup = tuple(row.split(','))
-				d['ACCOUNTS'][group].append(tup)
+		if start and conf_group==start_sl[1] and row[0]!='>':
+			row = row.split(',')	
+			j = row[1:3]
+			accs_attr_d = {'-':'lev2','h':'row_highlight','':'lev1','--':'lev3','2l':'row_2l'}
+			if row[0]=='':
+				key = row[1]
+				j.append(accs_attr_d[row[0]])
+				d['ACCOUNTS'][key] = [j]
+				d['ACCOUNTS']['ORDER'].append(key)
 			else:
-				if row[0]!='>':
-					group = row
-					group = clean_string(group)
-					group = tuple(group.split(','))
-					d['ACCOUNTS'][group]=[group]
+				attrs = row[0].split('@')
+				row_class = ' '.join([accs_attr_d[attr] for attr in attrs])
+				j.append(row_class)
+				d['ACCOUNTS'][key].append(j)
 	return d
 
 def financials_rows(entity,account,row_class,financials_d):
@@ -88,30 +91,25 @@ def financials_rows(entity,account,row_class,financials_d):
 		dt['DT_RowClass']=row_class
 	return dt
 
-def financials_grid():
-	f = open('/home/casacc/alessio/andemo/sample_data/hyp.dat')
-	f_formulas = open('/home/casacc/alessio/andemo/sample_data/hyp_conf.txt')
+def financials_grid(finDataLoc,formuDataLoc):
+	f = open(finDataLoc)
+	f_formulas = open(formuDataLoc)
 	d_formulas = formulas_to_d(f_formulas)
 	d = import_financials(f)
 	financials_d = mk_financials_grid(d,d_formulas['FORMULAS'])
-	print d_formulas 
 	d = {}
 	l = []
+	print d_formulas['ACCOUNTS']['ORDER']
 	for entity in financials_d['entities']:
-		for parent_account in d_formulas['ACCOUNTS']:
-			for account in d_formulas['ACCOUNTS'][parent_account]:
-				print parent_account,account
-				if parent_account==account:
-					row_class='parent_row'
-				else:
-					row_class='child_row'
+		for parent_account in d_formulas['ACCOUNTS']['ORDER']:	
+			for account in d_formulas['ACCOUNTS'][parent_account]:	
+				row_class = account[2]
 				dt = financials_rows(entity,account,row_class,financials_d)
 				l.append(dt)
 	d['aaData'] = l
 	d['aoColumns']=['entity','account','account_name',1,2,3,4,5,6,7,8,9,10,11,12]
 	d['entities']=list(financials_d['entities'])
-	print d
 	return d
 
-financials_grid()
+
 

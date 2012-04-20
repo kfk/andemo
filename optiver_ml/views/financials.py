@@ -8,5 +8,7 @@ def financials():
 
 @app.route('/financials_json')
 def financials_json():
-	d = financials_grid()
+	finDataLoc=app.config['finDataLoc']
+	formuDataLoc=app.config['formuDataLoc']
+	d = financials_grid(finDataLoc,formuDataLoc)
 	return jsonify(d)

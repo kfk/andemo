@@ -66,9 +66,10 @@
 			<div class="span12">
 				<div class="centered">
 					Choose an entity here:
-					<select id='entities_select'>
+					<select id='entities_select'></br>	
 						<option></option>
 					</select>
+				<p>Click on the row to unhide account details</p>
 				<div id='financials_table'></div>	
 				</div>
 			</div>
@@ -87,7 +88,6 @@
 		//Select Populator. Uses Pure.js and needs json data (entities)
 		function entitySelect(entities){
 		json={options:entities};
-		console.log(json);
 			$('#entities_select')
 				.directives({'option':{'opt<-options':{'.':'opt'}}})
 				.render(json)
@@ -98,8 +98,14 @@
 	
 			//Functions Called From Ajax Call
 			function onRowClick (){
-				$(this).nextUntil('.parent_row').toggle()};	
-					
+					var firstGroup = $('tr.lev3').is(':visible');
+					if (firstGroup!=true){$(this).nextUntil(".lev1",'.lev2').toggle()};
+					if (firstGroup==true){$(this).nextUntil(".lev1").hide()};
+			};
+
+$("tr.lev2").click(function() {
+  $(this).nextUntil('.lev1').toggle();
+			});
 			//Ajax Call, populates Json Data
 			function ajaxTable (url,table_nm,entitySelected) {
 				var table_id='ID_'+table_nm;
@@ -115,19 +121,19 @@
 						td["sTitle"] = json["aoColumns"][col];
 						aoColumns.push(td);
 						};
-					
+						
 					var filteredData = []
 					for (i in json['aaData']){
 						if (json['aaData'][i][0]==entitySelected){
 							filteredData.push(json['aaData'][i]);
 						}};	        				
-
 					json.bDestroy = true;
 					$('#'+table_id).dataTable({
 						"bDestroy":true,
 						"sDom":'<"clear">',
-						'fnInitComplete':function(){$('tr.parent_row').click(onRowClick)},
-						"aaSorting":[[0,"desc"]],
+						'iDisplayLength':1000,
+						'fnInitComplete':function(){$('tr.lev1').click(onRowClick);
+																				$("tr.lev2").click(function() {$(this).nextUntil('.lev2','.lev3').toggle();});},
 						"aaData":filteredData,
 						"aoColumns": aoColumns
 					});

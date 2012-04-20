@@ -2,10 +2,19 @@
 thead tr{
 background-color:#FFCF79;
 }
-.parent_row{
-background-color:#99CCCC;
+.lev1{
+background-color:#66A1D5;
 }
-.child_row{
+.lev2{
 display:none;
-background-color:#CCCCCC;
+background-color:#C3D6F5;
+}
+.lev3{
+display:none;
+}
+.row_highlight{
+background-color:#CEEBFB;
+}
+.row_2l{
+background-color:#A3D6F5;
 }
