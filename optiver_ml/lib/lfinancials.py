@@ -23,20 +23,21 @@ def import_financials(f):
 	for row in f:
 		row = row.split(',')
 		n = len(row)
-		print row
-		d['data'][(row[0],row[1])]=row[2:n]
+		d['data'][(row[0],row[2])]=row[3:n]
 	d['row_len'] = int(n)
 	entities = set()
 	for k in d['data'].keys():
 		entities.add(k[0])
 	d['entities'] = entities
+	d['fcst'] = row[1]
 	return d
 
 def mk_financials_grid(d,d_formulas):
 	for entity in d['entities']:
 		for k in d_formulas['ORDER']:
-			formula = re.sub(regexp, reg_repl(entity),d_formulas[k]) 
-			d['data'][(entity,k)] = [eval(formula) for i in range(d['row_len']-2)]	
+			formula = re.sub(regexp, reg_repl(entity),d_formulas[k])
+			print entity,k
+			d['data'][(entity,k)] = [eval(formula) for i in range(d['row_len']-3)]	
 	return d
 
 #TODO: check for accounts with same name
@@ -66,10 +67,12 @@ def formulas_to_d(f):
 		if start and conf_group==start_sl[1] and row[0]!='>':
 			row = row.split(',')	
 			j = row[1:3]
-			accs_attr_d = {'-':'lev2','h':'row_highlight','':'lev1','--':'lev3','2l':'row_2l'}
-			if row[0]=='':
+			accs_attr_d = {'-':'lev2','h':'row_highlight','':'lev1','--':'lev3','l':'row_2l','g':'row_2g'}
+			if row[0]=='' or row[0][0]=='@':
 				key = row[1]
-				j.append(accs_attr_d[row[0]])
+				attrs = row[0].split('@')
+				row_class = ' '.join([accs_attr_d[attr] for attr in attrs])
+				j.append(row_class)
 				d['ACCOUNTS'][key] = [j]
 				d['ACCOUNTS']['ORDER'].append(key)
 			else:

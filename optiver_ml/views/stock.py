@@ -12,10 +12,6 @@ dh = {'url':'http://ichart.yahoo.com/table.csv?s={stock_id}&a={from_m}&b={from_d
 
 dc = {'name':'values','url':'http://download.finance.yahoo.com/d/quotes.csv?s={stock_id}&f=nsop&e=.csv','url_params':{'stock_id':'GOOG'},'header':['name','id','open','close']}
 
-@app.route('/tests')
-def tests():
-	return render_template('tests.html')
-
 @app.route('/', methods=['GET','POST'])
 def index():
 	return render_template('index.html')

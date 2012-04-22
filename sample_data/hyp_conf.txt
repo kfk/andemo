@@ -21,7 +21,8 @@ OPEX=2030+2040+2060
 2110=2110.01
 2160=2130.02.01+2130.05.13+2130.06.01+2130.11.01+2130.13+2195
 2089M=2039-OPEX+2110-2160
-0000=2010/2007
+SMI=2010/2007
+OM=2089M/2007
 Ratios=''
 <FORMULAS
 ,parent row, 1st level
@@ -32,8 +33,8 @@ h,highight account
 
 >ACCOUNTS_ORD
 ,1050,Bookings
-,2000,Gross Sales
--@2l,2000.01,Products
+@g,2000,Gross Sales
+-@l,2000.01,Products
 --,2000.01.01,Direct
 --,2000.01.03,Manual Adj.
 -,2000.02,Contracts
@@ -41,9 +42,9 @@ h,highight account
 -,2006.01,Sales Discounts
 -,2006.02,Sales Discounts
 -@h,2007,Net Trade Sales
-,2010,Standard Cost of Trade Sales
+@g,2010,Standard Cost of Trade Sales
 ,SVAR,Total Variances
--@2l,2015,Variances and Other Costs
+-@l,2015,Variances and Other Costs
 --,2015.01.01,Purchase Price Variances
 --,2015.01.05,2015.01 - Foreign Currency IntraCo PPV
 --,2015.01.06,External FX PPV
@@ -52,7 +53,7 @@ h,highight account
 --,2015.10,Manufacturing Fees
 --,2015.11.02,SFAS 133 Hedge Amortization
 --,2015.12,Gain (Loss) Disposals of Fixed Assets
--@2l,2015.06,Other COS - Variances
+-@l,2015.06,Other COS - Variances
 --,2015.06.01,Other Cost of Goods Sold
 --,2015.06.03,Dollar Depreciation
 --,2015.06.05,Purchase Discounts
@@ -63,41 +64,41 @@ h,highight account
 --,2015.06.10,Inventory Adj - Other
 --,2015.06.11,Inventory Adj. - Capitalized V
 ,2015.04,Freight
--@2l,2015.05,Distribution and Shipping
+-@l,2015.05,Distribution and Shipping
 --,2015.05.01,Direct
 --,2015.05.02,Allocated
 ,2038,Mgt Cost of Sales
 ,2039,Mgt Gross Margin
-,2030,Engr and Prod Development
--@2l,2030.01,Direct
+@g,2030,Engr and Prod Development
+-@l,2030.01,Direct
 --,2030.01.01,Phase 1 to 3 (Inc R&D)
 --,2030.01.02,Other Eng Activities
 --,2030.01.85,Intra BU Alloc Engrg
--@2l,2030.02,Allocated
+-@l,2030.02,Allocated
 --,2030.02.01,Phase 1 to 3 (Inc R&D)
 --,2030.02.02,Other Eng Activities
 --,2030.02.85,Intra BU Alloc Engrg
-,2040,General & Administrative
--@2l,2040.01,Direct
+@g,2040,General & Administrative
+-@l,2040.01,Direct
 --,2040.01.01,General and Administrative
 --,2040.01.02,Intraco Service Charges
 --,2040.01.04,Deferred Compensation Gain (Los
 --,2040.01.85,Intra BU Alloc G&A
--@2l,2040.02,Allocated
+-@l,2040.02,Allocated
 --,2040.02.01,General and Administrative
 --,2040.02.02,Intraco Service Charges
 --,2040.02.04,Deferred Compensation Gain (Los
 --,2040.02.85,Intra BU Alloc G&A
-,2060,Selling
--@2l,2060.01,Direct
+@g,2060,Selling
+-@l,2060.01,Direct
 --,2060.01.01,Selling Expense
 --,2060.01.02,Inter-agency Commission
 --,2060.01.85,Intra BU Alloc Selling
--@2l,2060.02,Allocated
+-@l,2060.02,Allocated
 --,2060.02.01,Selling Expense
 --,2060.02.02,Inter-agency Commission
 --,2060.02.85,Intra BU Alloc Selling
-,OPEX,OPEX Total
+@g,OPEX,OPEX Total
 ,2110,Other Income
 -,2110.01,Dividend Income - External - Direct
 --,2120.01.01,Royalty Income
@@ -110,9 +111,10 @@ h,highight account
 -,2130.11.01,Loss/(Gain) on Equity Investments
 -,2130.13,Stock Option Expense FAS 113(R)
 -,2195,Interco Exchange
-,2089M,GAAP Operating Income
+@g,2089M,GAAP Operating Income
 ,Ratios,Financial Ratios
--@h,0000,Standard Margin
+-@h,SMI,Standard Margin
+-@h,OM,OI Margin
 <ACCOUNTS_ORD
 
 

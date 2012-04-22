@@ -2,6 +2,10 @@ from optiver_ml import app
 from flask import render_template, request
 from wtforms import Form, BooleanField, TextField, validators
 
+@app.route('/tests')
+def tests():
+	return str(app.config['EPIO_DATA_DIRECTORY'])
+
 def clean_string(string):
 	for item in ['\n']:
 		string = string.replace(item,'')
